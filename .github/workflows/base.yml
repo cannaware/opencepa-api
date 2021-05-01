@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Delivery with Pinata
-        uses: aquiladev/ipfs-action@v1.5
+        uses: aquiladev/ipfs-action@v0.1.5
         id: pinata
         with:
-          path: ./api
+          path: ./public
           service: pinata
           pinataKey: ${{ secrets.PINATA_KEY }}
           pinataSecret: ${{ secrets.PINATA_SECRET }}
