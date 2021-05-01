@@ -1,2 +1,2 @@
 # opencepa-api
-API de variedades de cannabis
+API decentralizada de variedades de cannabis
