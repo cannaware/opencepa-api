@@ -1,9 +1,9 @@
-name: IPFS Delivery
+name: IPFS Deploy
 
 on:
   push:
     branches:
-      - base
+      - main
 
 jobs:
   build:
