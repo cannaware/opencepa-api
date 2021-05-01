@@ -1,0 +1,31 @@
+name: IPFS Delivery
+
+on:
+  push:
+    branches:
+      - base
+
+jobs:
+  build:
+    name: Run build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Delivery with Pinata
+        uses: aquiladev/ipfs-action@v1.5
+        id: pinata
+        with:
+          path: ./api
+          service: pinata
+          pinataKey: ${{ secrets.PINATA_KEY }}
+          pinataSecret: ${{ secrets.PINATA_SECRET }}
+          pinataPinName: opencepa-api
+
+      - name: Update Cloudflare DNS
+        uses: wei/curl@v1.1.1
+        id: cloudflare
+        with:
+          args: -X PUT 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/dns_records/${{ secrets.CLOUDFLARE_RECORD_ID }}' -H 'X-Auth-Email:${{ secrets.CLOUDFLARE_AUTH_EMAIL }}' -H 'X-Auth-Key:${{ secrets.CLOUDFLARE_AUTH_KEY }}' -H 'Content-Type:application/json' -d '{\"type\":\"TXT\",\"name\":\"_dnslink\",\"content\":\"dnslink=/ipfs/${{ steps.pinata.outputs.hash }}\",\"ttl\":120,\"proxied\":false}'
