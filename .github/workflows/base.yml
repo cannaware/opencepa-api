@@ -28,4 +28,4 @@ jobs:
         uses: wei/curl@v1.1.1
         id: cloudflare
         with:
-          args: -X PUT 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/dns_records/${{ secrets.CLOUDFLARE_RECORD_ID }}' -H 'X-Auth-Email:${{ secrets.CLOUDFLARE_AUTH_EMAIL }}' -H 'X-Auth-Key:${{ secrets.CLOUDFLARE_AUTH_KEY }}' -H 'Content-Type:application/json' -d '{\"type\":\"TXT\",\"name\":\"_dnslink\",\"content\":\"dnslink=/ipfs/${{ steps.pinata.outputs.hash }}\",\"ttl\":120,\"proxied\":false}'
+          args: -X PUT 'https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/dns_records/${{ secrets.CLOUDFLARE_RECORD_ID }}' -H 'Authorization:Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}' -H 'Content-Type:application/json' -d '{\"type\":\"TXT\",\"name\":\"_dnslink\",\"content\":\"dnslink=/ipfs/${{ steps.pinata.outputs.hash }}\",\"ttl\":120,\"proxied\":false}'
